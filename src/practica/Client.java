@@ -4,11 +4,13 @@ import java.io.*;
 import java.net.Socket;
 import java.security.PublicKey;
 import javax.crypto.SecretKey;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Client {
-    private static final String HOST = "192.168.2.241";
-    private static final int PORT = 5000;
+    //private static final String HOST = "192.168.2.241";
+    private static final String HOST = "localhost";
+    private static final int PORT = 5100; //5000
     private SecretKey sharedKey;
 
     public void start() {
@@ -43,12 +45,14 @@ public class Client {
 
                 // Paso 4: Enviar mensajes al servidor
                 while (true) {
-                    ColoresConsola.cliente(" Introduce un mensaje:");
+                    System.out.println(ColoresConsola.colorize(" Introduce un mensaje:", ColoresConsola.GREEN));
                     String message = scanner.nextLine();
 
                     // Cifrar mensaje
                     byte[] encryptedMessage = AES_Simetric.encryptData(sharedKey, message.getBytes());
                     byte[] messageHash = Hash.hash(message.getBytes());
+                    ColoresConsola.cliente("Hash enviado: \n" + Arrays.toString(messageHash));
+
                     out.writeObject(new Packet(encryptedMessage, messageHash));
                     out.flush();
 

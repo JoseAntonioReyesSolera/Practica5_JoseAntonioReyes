@@ -4,11 +4,11 @@ public class ColoresConsola {
     // Códigos ANSI para colores de texto
     public static final String RESET = "\033[0m"; // Restablece el color predeterminado
     public static final String RED = "\033[31m"; // Rojo
-    public static final String GREEN = "\033[32m"; // Verde
+    public static final String GREEN = "\033[92m"; // Intenso Verde
     public static final String YELLOW = "\033[33m"; // Amarillo
-    public static final String BLUE = "\033[34m"; // Azul
-    public static final String CYAN = "\033[36m"; // Cian
-    public static final String MAGENTA = "\033[35m"; // Magenta
+    public static final String BLUE = "\033[94m"; // Intenso Azul
+    public static final String CYAN = "\033[96m"; // Cian
+    public static final String MAGENTA = "\033[95m"; // Intenso Magenta
 
     // Métodos para aplicar colores al texto
     public static String colorize(String text, String color) {

@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.Arrays;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -75,11 +76,17 @@ public class Server {
             while (true) {
                 packet = (Packet) in.readObject();
                 byte[] decryptedMessage = AES_Simetric.decryptData(sharedKey, packet.message);
+
                 String message = new String(decryptedMessage);
                 ColoresConsola.servidor("Palabra descifrada: " + message);
 
+                byte[] serverHash = Hash.hash(decryptedMessage);
+                ColoresConsola.servidor("Hash calculado: \n" + Arrays.toString(serverHash));
+                ColoresConsola.servidor("Hash recibido: \n" + Arrays.toString(packet.hash));
+
+
                 // Verificar integridad del mensaje
-                if (Hash.compareHash(decryptedMessage, packet.hash)) {
+                if (Hash.compareHash(Hash.hash(decryptedMessage), packet.hash)) {
                     ColoresConsola.servidor("Hash verificado correctamente");
                     // Enviar acuse de recibo
                     String response = "Mensaje recibido";
@@ -87,7 +94,7 @@ public class Server {
                     out.writeObject(new Packet(encryptedResponse, response.getBytes()));
                     out.flush();
                 } else {
-                    ColoresConsola.servidor("[Servidor] Error: El hash del mensaje no coincide");
+                    ColoresConsola.servidor("Error: El hash del mensaje no coincide");
                 }
             }
         } catch (Exception e) {
