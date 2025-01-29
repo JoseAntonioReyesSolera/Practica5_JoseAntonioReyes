@@ -29,6 +29,6 @@ public class ColoresConsola {
     }
 
     public static void advertencia(String text) {
-        System.out.println(colorize("[ADVERTENCIA] " + text, YELLOW)); // Mensajes de advertencia en amarillo
+        System.out.println(colorize(text, YELLOW)); // Mensajes de advertencia en amarillo
     }
 }

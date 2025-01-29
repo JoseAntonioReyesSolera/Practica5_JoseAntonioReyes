@@ -23,7 +23,7 @@ public class Client {
                     Scanner scanner = new Scanner(System.in)
             ) {
                 //Paso 0: Solicitar clave publica al servidor
-                ColoresConsola.cliente("Solicitando clave pública al servidor...");
+                ColoresConsola.cliente(" 1. Solicitando clave pública al servidor...");
                 out.writeObject("REQUEST_PUBLIC_KEY");
 
                 // Paso 1: Recibir clave pública del servidor
@@ -32,7 +32,7 @@ public class Client {
                 ColoresConsola.cliente(" Clave pública recibida: " + publicKey);
 
                 // Paso 2: Generar clave simétrica
-                ColoresConsola.cliente(" Generando clave simétrica...");
+                ColoresConsola.cliente(" 3. Generando clave simétrica...");
                 sharedKey = AES_Simetric.keygenKeyGeneration(128);
                 ColoresConsola.cliente(" Clave simétrica generada: " + new String(sharedKey.getEncoded()));
 
@@ -45,13 +45,13 @@ public class Client {
 
                 // Paso 4: Enviar mensajes al servidor
                 while (true) {
-                    System.out.println(ColoresConsola.colorize(" Introduce un mensaje:", ColoresConsola.GREEN));
+                    System.out.println(ColoresConsola.colorize("5. Introduce un mensaje:", ColoresConsola.GREEN));
                     String message = scanner.nextLine();
 
                     // Cifrar mensaje
                     byte[] encryptedMessage = AES_Simetric.encryptData(sharedKey, message.getBytes());
                     byte[] messageHash = Hash.hash(message.getBytes());
-                    ColoresConsola.cliente("Hash enviado: \n" + Arrays.toString(messageHash));
+                    ColoresConsola.cliente(" Hash enviado: \n" + Arrays.toString(messageHash));
 
                     out.writeObject(new Packet(encryptedMessage, messageHash));
                     out.flush();
